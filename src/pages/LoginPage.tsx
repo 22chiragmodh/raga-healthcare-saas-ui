@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { type FormEvent, useMemo, useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import { BrandLogo } from '../components/BrandLogo'
 import { isFirebaseConfigured, getFirebaseAuth } from '../lib/firebase'
 import { useAuthStore } from '../store/authStore'
 
@@ -62,7 +63,7 @@ export function LoginPage() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-card__header">
-          <span className="sidebar__logo" aria-hidden />
+          <BrandLogo variant="auth" />
           <div>
             <h1 className="auth-card__title">RAGA Care</h1>
             <p className="auth-card__subtitle">Sign in to the clinical workspace</p>

@@ -1,5 +1,6 @@
 import { signOut } from 'firebase/auth'
 import { NavLink, Outlet } from 'react-router-dom'
+import { BrandLogo } from '../BrandLogo'
 import { getFirebaseAuth } from '../../lib/firebase'
 import { useAuthStore } from '../../store/authStore'
 
@@ -18,7 +19,7 @@ export function AppLayout() {
     <div className="app-shell">
       <aside className="sidebar" aria-label="Main navigation">
         <div className="sidebar__brand">
-          <span className="sidebar__logo" aria-hidden />
+          <BrandLogo variant="sidebar" />
           <div>
             <strong>RAGA Care</strong>
             <span className="sidebar__tag">Clinical workspace</span>
