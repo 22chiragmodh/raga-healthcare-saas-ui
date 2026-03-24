@@ -7,6 +7,24 @@ import { LoginPage } from '../pages/LoginPage'
 import { PatientsPage } from '../pages/PatientsPage'
 import { useAuthStore } from '../store/authStore'
 
+function GuestRoute({ children }: { children: ReactNode }) {
+  const { user, initialized } = useAuthStore()
+
+  if (!initialized) {
+    return (
+      <div className="auth-page">
+        <p className="muted">Checking session…</p>
+      </div>
+    )
+  }
+
+  if (user) {
+    return <Navigate to="/" replace />
+  }
+
+  return children
+}
+
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const { user, initialized } = useAuthStore()
 
@@ -28,7 +46,14 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      <Route
+        path="/login"
+        element={
+          <GuestRoute>
+            <LoginPage />
+          </GuestRoute>
+        }
+      />
       <Route
         path="/"
         element={
