@@ -1,8 +1,11 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { showCareTeamLocalAlert } from '../lib/localNotification'
 import { usePatientStore } from '../store/patientStore'
 
 export function DashboardPage() {
   const patients = usePatientStore((s) => s.patients)
+  const [notifyMessage, setNotifyMessage] = useState<string | null>(null)
+  const [notifyBusy, setNotifyBusy] = useState(false)
 
   const stats = useMemo(() => {
     const active = patients.filter((p) => p.status === 'active').length
@@ -48,6 +51,35 @@ export function DashboardPage() {
           <strong className="metric-card__value">{stats.recent}</strong>
           <span className="metric-card__hint muted">Based on last visit date</span>
         </article>
+      </div>
+
+      <div className="panel">
+        <h3 className="panel__title">Notifications demo</h3>
+        <p className="muted" style={{ margin: '0 0 0.75rem', fontSize: '0.95rem' }}>
+          Uses the registered service worker to show a local notification (browser permission
+          required). Works on HTTPS and on <code className="inline-code">localhost</code>.
+        </p>
+        <div className="inline-actions">
+          <button
+            type="button"
+            className="btn btn--primary"
+            disabled={notifyBusy}
+            onClick={async () => {
+              setNotifyBusy(true)
+              setNotifyMessage(null)
+              const result = await showCareTeamLocalAlert()
+              setNotifyMessage(result.message)
+              setNotifyBusy(false)
+            }}
+          >
+            {notifyBusy ? 'Working…' : 'Simulate care team alert'}
+          </button>
+          {notifyMessage && (
+            <span className={notifyMessage.includes('sent') ? 'text-ok' : 'form-error'}>
+              {notifyMessage}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="panel">
