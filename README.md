@@ -144,6 +144,15 @@ Create a **`.env`** file in the project root with your Firebase web config (vari
 
 Enable **Email/Password** in the Firebase console under Authentication → Sign-in method.
 
+### Test credentials
+
+Use these to sign in once the same user exists in **your** Firebase project (Authentication → Users) with **Email/Password** enabled:
+
+| Field | Value |
+| ----- | ----- |
+| **Email** | `testragacareuser1@gmail.com` |
+| **Password** | `Test1234@` |
+
 ```bash
 npm run dev
 ```
