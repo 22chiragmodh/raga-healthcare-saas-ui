@@ -162,6 +162,70 @@ Restart the dev server after changing `.env`.
 
 The app registers `public/sw.js`. On the **Dashboard**, use **Simulate care team alert** to request notification permission and show a **local** notification via the service worker (suitable for the assignment demo). Use a secure context (`https://` or `http://localhost`).
 
+## Deploy on Vercel
+
+The repo includes **`vercel.json`** so client-side routes (e.g. `/patients`) work on refresh.
+
+### 1. Push your code to GitHub
+
+Vercel deploys from Git. Ensure the latest `main` (or your branch) is on GitHub.
+
+### 2. Import the project in Vercel
+
+1. Go to [vercel.com](https://vercel.com) and sign in (e.g. with GitHub).
+2. **Add New…** → **Project**.
+3. **Import** the repository that contains this app (`raga-healthcare-saas-ui` or your repo name).
+
+### 3. Configure the project
+
+If the **Vite app is at the repository root** (this folder is the repo root):
+
+- **Framework Preset:** Vite (auto-detected).
+- **Root Directory:** leave default `.`  
+- **Build Command:** `npm run build` (default).  
+- **Output Directory:** `dist` (default for Vite).
+
+If your GitHub repo is the parent folder and this app lives in a subfolder:
+
+- Open **Root Directory** → **Edit** → select the `healthcare-saas` folder (or the folder that contains `package.json`).
+
+### 4. Add environment variables
+
+Before the first deploy (or under **Settings → Environment Variables**):
+
+Add the same Firebase keys you use locally, for **Production** (and **Preview** if you want preview deployments to work):
+
+| Name | Value |
+| ---- | ----- |
+| `VITE_FIREBASE_API_KEY` | from Firebase console |
+| `VITE_FIREBASE_AUTH_DOMAIN` | … |
+| `VITE_FIREBASE_PROJECT_ID` | … |
+| `VITE_FIREBASE_STORAGE_BUCKET` | … |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | … |
+| `VITE_FIREBASE_APP_ID` | … |
+
+Redeploy after changing env vars (**Deployments** → ⋮ → **Redeploy**).
+
+### 5. Deploy
+
+Click **Deploy**. When it finishes, open the **`.vercel.app`** URL.
+
+### 6. Firebase authorized domain
+
+1. Firebase Console → **Authentication** → **Settings** → **Authorized domains**.
+2. **Add domain** → enter your Vercel hostname (e.g. `your-project.vercel.app` and any custom domain you add later).
+
+Without this, sign-in can fail on the live site.
+
+### 7. Optional: verify build locally
+
+```bash
+npm run build
+npm run preview
+```
+
+Visit the preview URL and click through `/login`, `/patients`, etc.
+
 ## Git workflow (feature branches)
 
 Work is split across branches (e.g. `chore/project-scaffold`, `feat/app-shell-routing-zustand`, `feat/firebase-authentication`, `feat/dashboard-analytics-patients`, `feat/service-worker-notifications`). Merge them into `main` in order when you are ready.
