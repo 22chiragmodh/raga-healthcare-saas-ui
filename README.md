@@ -180,10 +180,10 @@ Vercel deploys from Git. Ensure the latest `main` (or your branch) is on GitHub.
 
 If the **Vite app is at the repository root** (this folder is the repo root):
 
-- **Framework Preset:** Vite (auto-detected).
+- **Framework Preset:** Vite (auto-detected), or **Other** if you rely only on `vercel.json`.
 - **Root Directory:** leave default `.`  
-- **Build Command:** `npm run build` (default).  
-- **Output Directory:** `dist` (default for Vite).
+- **Build Command:** must be **`npm run build`** (runs `tsc` + local `vite`). Do **not** use `vite build` alone — that causes **exit 127** (`vite: command not found`) on Vercel because `vite` is not on the global PATH.
+- **Output Directory:** `dist`
 
 If your GitHub repo is the parent folder and this app lives in a subfolder:
 
